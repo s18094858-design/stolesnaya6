@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>СТО Лесная 6 — Ремонт авто</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        :root { --bg: #f4f7fc; --card: #ffffff; --text: #1e2a3a; --border: #e6edf4; --accent: #f0b300; --dark: #0b2b44; }
+        body.dark { --bg: #121a24; --card: #1e2a3a; --text: #e8edf2; --border: #2e4058; --dark: #f0b300; }
+        body { background: var(--bg); color: var(--text); padding: 16px; max-width:800px; margin:0 auto; transition:.3s; }
+        .card { background: var(--card); border-radius:24px; padding:24px 20px; margin-bottom:20px; box-shadow:0 8px 24px rgba(0,0,0,0.08); border:1px solid var(--border); transition:.3s; }
+        h1 { font-size:28px; font-weight:700; color:var(--dark); display:flex; align-items:center; gap:10px; }
+        body.dark h1 { color:#f0b300; }
+        .subhead { font-size:16px; opacity:.8; border-bottom:3px solid var(--accent); padding-bottom:12px; margin-top:4px; }
+        .info-row { display:flex; align-items:center; gap:14px; padding:10px 0; border-bottom:1px solid var(--border); }
+        .info-row i { width:28px; color:var(--dark); font-size:20px; text-align:center; }
+        body.dark .info-row i { color:var(--accent); }
+        .badge { background:var(--accent); color:#0b2b44; font-weight:700; padding:4px 14px; border-radius:40px; font-size:14px; display:inline-block; }
+        .service-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:8px; }
+        .service-item { background:var(--bg); border-radius:16px; padding:14px 12px; border:1px solid var(--border); font-size:15px; display:flex; align-items:center; gap:10px; cursor:pointer; transition:.15s; }
+        .service-item:hover { transform:scale(1.02); border-color:var(--accent); }
+        .service-item i { color:var(--accent); width:22px; font-size:18px; }
+        .service-item.selected { border:2px solid var(--accent); background:var(--accent); color:#0b2b44; }
+        .service-item.selected i { color:#0b2b44; }
+        .btn { display:block; background:var(--dark); color:white; text-align:center; padding:16px; border-radius:60px; font-weight:600; font-size:18px; border:none; width:100%; transition:.2s; cursor:pointer; margin-top:6px; }
+        body.dark .btn { background:#f0b300; color:#0b2b44; }
+        .btn:hover { opacity:.85; transform:scale(1.01); }
+        .btn i { margin-right:10px; }
+        .footer-note { text-align:center; font-size:13px; opacity:.6; padding:16px 0 8px; }
+        .hours-highlight { background:#eef6e6; padding:10px 16px; border-radius:40px; font-weight:600; display:inline-block; }
+        body.dark .hours-highlight { background:#2a4a3a; color:#c8e6c8; }
+        .input-group { display:flex; gap:8px; flex-wrap:wrap; }
+        .input-group input, .input-group select { flex:1; padding:14px; border-radius:60px; border:1px solid var(--border); font-size:15px; background:var(--card); color:var(--text); min-width:120px; }
+        .input-group button { background:var(--dark); color:white; border:none; padding:14px 24px; border-radius:60px; font-weight:600; font-size:15px; cursor:pointer; }
+        body.dark .input-group button { background:#f0b300; color:#0b2b44; }
+        .review-slide { background:var(--bg); padding:16px; border-radius:16px; margin:8px 0; border-left:4px solid var(--accent); }
+        .review-slide .name { font-weight:700; }
+        .review-slide .text { font-style:italic; margin-top:4px; }
+        .theme-toggle { position:fixed; top:16px; right:16px; background:var(--card); border:1px solid var(--border); border-radius:40px; padding:8px 14px; font-size:14px; cursor:pointer; z-index:999; color:var(--text); }
+        .map-container { border-radius:16px; overflow:hidden; margin-top:12px; }
+        .map-container iframe { width:100%; height:200px; border:0; }
+        @media(max-width:480px){ .service-grid{grid-template-columns:1fr 1fr; gap:8px;} .service-item{font-size:14px; padding:12px 10px;} h1{font-size:24px;} }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i> Тема</button>
+
+    <!-- ШАПКА -->
+    <div class="card">
+        <h1><i class="fas fa-wrench" style="color:var(--accent);"></i> СТО Лесная 6</h1>
+        <div class="subhead"><i class="fas fa-map-pin"></i> Автосервис полного цикла</div>
+    </div>
+
+    <!-- КОНТАКТЫ -->
+    <div class="card">
+        <div class="info-row"><i class="fas fa-map-marker-alt"></i><span><strong>Лесная ул., 6</strong> (парковка у входа)</span></div>
+        <div class="info-row"><i class="fas fa-clock"></i><span><span class="hours-highlight"><i class="far fa-calendar-alt"></i> 08:00 – 17:00</span><span style="display:block;font-size:14px;opacity:.7;">Пн–Пт, без обеда</span></span></div>
+        <div class="info-row" style="border-bottom:none;"><i class="fas fa-phone-alt"></i><span><strong>+7 (999) 123-45-67</strong> (позвоните или напишите)</span></div>
+    </div>
+
+    <!-- УСЛУГИ -->
+    <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <span style="font-weight:700;font-size:18px;"><i class="fas fa-tools" style="color:var(--accent);"></i> Наши услуги</span>
+            <span class="badge">любой ремонт</span>
+        </div>
+        <div class="service-grid" id="serviceGrid">
+            <div class="service-item" data-service="Шиномонтаж"><i class="fas fa-car-side"></i> Шиномонтаж</div>
+            <div class="service-item" data-service="Ходовая часть"><i class="fas fa-road"></i> Ходовая часть</div>
+            <div class="service-item" data-service="Тормозная система"><i class="fas fa-stop-circle"></i> Тормозная система</div>
+            <div class="service-item" data-service="Кондиционер"><i class="fas fa-snowflake"></i> Заправка кондиционера</div>
+            <div class="service-item" data-service="Сварочные работы"><i class="fas fa-fire"></i> Сварочные работы</div>
+            <div class="service-item" data-service="Замена масла"><i class="fas fa-oil-can"></i> Замена масла/жидкостей</div>
+            <div class="service-item" data-service="Диагностика"><i class="fas fa-diagnoses"></i> Диагностика</div>
+            <div class="service-item" data-service="Ремонт двигателя"><i class="fas fa-cogs"></i> Ремонт двигателя/КПП</div>
+        </div>
+        <div style="margin-top:12px;background:var(--bg);border-radius:40px;padding:10px 16px;text-align:center;font-size:15px;">
+            <i class="fas fa-check-circle" style="color:#2a7d2a;"></i> Принимаем все марки авто
+        </div>
+    </div>
+
+    <!-- КАЛЬКУЛЯТОР -->
+    <div class="card">
+        <div style="font-weight:700;font-size:18px;margin-bottom:8px;"><i class="fas fa-calculator" style="color:var(--accent);"></i> Калькулятор стоимости</div>
+        <p style="font-size:14px;opacity:.7;margin-bottom:12px;">Выберите услугу, чтобы увидеть примерную цену</p>
+        <select id="calcService" style="width:100%;padding:14px;border-radius:60px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:15px;margin-bottom:10px;">
+            <option value="0">Выберите услугу...</option>
+            <option value="1500">Шиномонтаж — от 1500 ₽</option>
+            <option value="3000">Ходовая часть — от 3000 ₽</option>
+            <option value="2500">Тормозная система — от 2500 ₽</option>
+            <option value="2000">Заправка кондиционера — от 2000 ₽</option>
+            <option value="4000">Сварочные работы — от 4000 ₽</option>
+            <option value="1500">Замена масла — от 1500 ₽</option>
+            <option value="1000">Диагностика — от 1000 ₽</option>
+            <option value="5000">Ремонт двигателя/КПП — от 5000 ₽</option>
+        </select>
+        <div id="calcResult" style="font-size:20px;font-weight:700;color:var(--dark);text-align:center;padding:8px 0;">Цена: от 0 ₽</div>
+    </div>
+
+    <!-- ЗАПИСЬ ОНЛАЙН -->
+    <div class="card">
+        <div style="font-weight:700;font-size:18px;margin-bottom:8px;"><i class="fas fa-calendar-check" style="color:var(--accent);"></i> Запись онлайн</div>
+        <div class="input-group">
+            <input type="date" id="datePick" value="2026-07-04">
+            <input type="time" id="timePick" value="10:00">
+            <input type="text" id="clientPhone" placeholder="+7 (___) ___-__-__">
+        </div>
+        <button class="btn" style="margin-top:12px;" onclick="bookAppointment()"><i class="fas fa-check"></i> Записаться</button>
+        <div id="bookMsg" style="text-align:center;font-size:14px;margin-top:8px;color:green;"></div>
+    </div>
+
+    <!-- ОТЗЫВЫ -->
+    <div class="card">
+        <div style="font-weight:700;font-size:18px;margin-bottom:8px;"><i class="fas fa-star" style="color:var(--accent);"></i> Отзывы клиентов</div>
+        <div id="reviewContainer">
+            <div class="review-slide"><div class="name">Алексей, Москва</div><div class="text">"Быстро поменяли масло и проверили ходовую. Всё чётко, без разводов."</div></div>
+            <div class="review-slide"><div class="name">Екатерина, МО</div><div class="text">"Приехала с кондиционером — заправили за 20 минут. Спасибо!"</div></div>
+            <div class="review-slide"><div class="name">Дмитрий, Зеленоград</div><div class="text">"Делал сварку порога. Качественно, аккуратно. Рекомендую."</div></div>
+        </div>
+    </div>
+
+    <!-- КАРТА -->
+    <div class="card">
+        <div style="font-weight:700;font-size:18px;margin-bottom:8px;"><i class="fas fa-map" style="color:var(--accent);"></i> Как нас найти</div>
+        <div class="map-container">
+            <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A1a2b3c4d5e6f7g8h9i0j&source=constructor" allowfullscreen></iframe>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:12px;">
+            <a href="https://yandex.ru/maps/?text=Лесная+6" target="_blank" style="flex:1;background:var(--bg);padding:12px;border-radius:40px;text-align:center;text-decoration:none;color:var(--dark);font-weight:500;"><i class="fas fa-map"></i> Яндекс.Карты</a>
+            <a href="https://www.google.com/maps/search/Лесная+6" target="_blank" style="flex:1;background:var(--bg);padding:12px;border-radius:40px;text-align:center;text-decoration:none;color:var(--dark);font-weight:500;"><i class="fab fa-google"></i> Google Карты</a>
+        </div>
+    </div>
+
+    <!-- БЫСТРАЯ ЗАЯВКА -->
+    <div class="card">
+        <div style="font-weight:600;margin-bottom:10px;"><i class="fas fa-pen"></i> Быстрая заявка</div>
+        <p style="font-size:14px;opacity:.7;margin-bottom:12px;">Напишите, что нужно сделать — перезвоним через 5 минут</p>
+        <div class="input-group">
+            <input type="text" id="quickMsg" placeholder="Ваш номер или вопрос...">
+            <button onclick="sendQuick()"><i class="fas fa-paper-plane"></i> Отправить</button>
+        </div>
+        <div style="font-size:13px;opacity:.6;margin-top:8px;"><i class="fas fa-lock"></i> Данные не сохраняются</div>
+    </div>
+
+    <!-- ФУТЕР -->
+    <div class="footer-note">
+        <i class="fas fa-certificate" style="color:var(--accent);"></i> СТО Лесная 6 — работает с 2008 года<br>
+        <span style="font-size:12px;opacity:0.6;">by: @zazayaga | mayfive v3.0</span>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+        }
+        if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
+
+        document.getElementById('calcService').addEventListener('change', function() {
+            const val = this.value;
+            document.getElementById('calcResult').textContent = val === '0' ? 'Цена: от 0 ₽' : `Цена: от ${val} ₽`;
+        });
+
+        function bookAppointment() {
+            const date = document.getElementById('datePick').value;
+            const time = document.getElementById('timePick').value;
+            const phone = document.getElementById('clientPhone').value.trim() || 'не указан';
+            if (!date) { alert('Выберите дату'); return; }
+            document.getElementById('bookMsg').textContent = `✅ Запись на ${date} в ${time} (тел: ${phone}) — скоро подтвердим!`;
+            document.getElementById('bookMsg').style.color = 'green';
+        }
+
+        function sendQuick() {
+            const msg = document.getElementById('quickMsg').value.trim();
+            if (!msg) { alert('Напишите номер или вопрос'); return; }
+            alert(`✅ Ваше сообщение отправлено: "${msg}". Мы перезвоним через 5 минут.`);
+            document.getElementById('quickMsg').value = '';
+        }
+
+        document.querySelectorAll('.service-item').forEach(el => {
+            el.addEventListener('click', function() {
+                document.querySelectorAll('.service-item').forEach(e => e.classList.remove('selected'));
+                this.classList.add('selected');
+                const service = this.dataset.service;
+                const options = document.getElementById('calcService').options;
+                for (let opt of options) {
+                    if (opt.text.includes(service)) {
+                        document.getElementById('calcService').value = opt.value;
+                        document.getElementById('calcService').dispatchEvent(new Event('change'));
+                        break;
+                    }
+                }
+            });
+        });
+
+        if (!localStorage.getItem('visits')) localStorage.setItem('visits', '1');
+        else { let v = parseInt(localStorage.getItem('visits')) + 1; localStorage.setItem('visits', v); }
+        console.log('🔧 СТО Лесная 6 — загружена. Посещений:', localStorage.getItem('visits'));
+
+        const shareBtn = document.createElement('div');
+        shareBtn.style.cssText = 'margin-top:12px;display:flex;gap:10px;justify-content:center;';
+        shareBtn.innerHTML = `
+            <a href="https://wa.me/?text=СТО%20Лесная%206%20—%20ремонт%20авто%20https://s18094858-design.github.io/stolesnaya6/" target="_blank" style="color:var(--text);font-size:22px;"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://t.me/share/url?url=https://s18094858-design.github.io/stolesnaya6/&text=СТО%20Лесная%206%20—%20ремонт%20авто" target="_blank" style="color:var(--text);font-size:22px;"><i class="fab fa-telegram"></i></a>
+            <a href="viber://forward?text=СТО%20Лесная%206%20—%20ремонт%20авто%20https://s18094858-design.github.io/stolesnaya6/" target="_blank" style="color:var(--text);font-size:22px;"><i class="fab fa-viber"></i></a>
+        `;
+        document.querySelector('.footer-note').appendChild(shareBtn);
+    </script>
+</body>
+</html>
